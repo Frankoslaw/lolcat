@@ -9,25 +9,22 @@ fn rgb(i: usize) -> (i32, i32, i32){
     )
 }
 
-fn print(output: String) {
-    for n in 0..output.len(){
-        let (r, g, b) = rgb(n);
-        print!("\x1b[38;2;{};{};{}m{}\x1b[0m", r, g, b, output.chars().nth(n).unwrap());
-    }
-    println!("");
-}
-
 fn main() {
+    let mut i = 0;
+
     loop {
         let mut input = String::new();
         io::stdin()
             .read_line(&mut input)
             .expect("failed to read from pipe");
-        input = input.trim().to_string();
         if input == "" {
             break;
         }
 
-        print(input);
+        for char in input.chars(){
+            let (r, g, b) = rgb(i);
+            print!("\x1b[38;2;{};{};{}m{}\x1b[0m", r, g, b, char);
+            i+=1;
+        }
     }
 }
